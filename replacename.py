@@ -23,10 +23,9 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
         regex (bool, optional): Treat input string as regex
     """
     loger = logging.getLogger(__name__)
-    loger.info("=== {} Start ===".format(replacename.__name__))
-    loger.info("[{} RUN][Mode {}] Replace \"{}\" with \"{}\" in \"{}\"".format(
-        "DRY" if dryrun else "WET", mode, find, replace, work_dir))
-
+    loger.info("=== %s Start ===", replacename.__name__)
+    loger.info("[%s RUN][Mode %s] Replace \"%s\" with \"%s\" in \"%s\"", "DRY"
+               if dryrun else "WET", mode, find, replace, work_dir)
     if mode == FILEONLY:
         checkmode = lambda f: os.path.isfile(os.path.join(work_dir, f))
     elif mode == FOLDERONLY:
@@ -58,10 +57,10 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
 
     to_work_len = len(to_work)
     if to_work_len:
-        loger.info("[{} items] to work:".format(to_work_len))
+        loger.info("[%s items] to work:", to_work_len)
 
         for f in to_work:
-            loger.info("{} -> {}".format(f[0], f[1]))
+            loger.info("%s -> %s", f[0], f[1])
             if not dryrun:
                 if f[1] in os.listdir(work_dir):
                     not_work.append([f, f[1]])
@@ -71,13 +70,13 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
 
     not_work_len = len(not_work)
     if not_work_len:
-        loger.info("[{} items] did not work:".format(not_work_len))
+        loger.info("[%s items] did not work:", not_work_len)
 
         for f in not_work:
             if dryrun:
-                loger.info("{} -> {}".format(f[0], f[1]))
+                loger.info("%s -> %s", f[0], f[1])
 
-    loger.info("=== {} End ===".format(replacename.__name__))
+    loger.info("=== %s End ===", replacename.__name__)
 
 
 if __name__ == "__main__":
@@ -85,13 +84,9 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument(
-        "find",
-        metavar="Find",
-        help="String to Replace in filename/foldername")
+        "find", help="String to Replace in filename/foldername")
     parser.add_argument(
-        "replace",
-        metavar="ReplaceWith",
-        help="To Replace With in filename/foldername")
+        "replace", help="To Replace With in filename/foldername")
     parser.add_argument("-d", "--dir", help="Working Directory")
     parser.add_argument(
         "-m",
