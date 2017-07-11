@@ -1,8 +1,9 @@
+#!/usr/bin/python
 import os
-import sys
 import shutil
 import re
 import logging
+__author__ = "Jack Chang <wei0831@gmail.com>"
 
 FILEONLY = 0
 FOLDERONLY = 1
