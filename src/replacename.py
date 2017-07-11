@@ -40,8 +40,8 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
 
     if regex:
         find_regex = re.compile(find)
-        checkmatch = lambda f: find_regex(f) is not None
-        getnewfilename = lambda f: find_regex(replace, f)
+        checkmatch = lambda f: find_regex.match(f) is not None
+        getnewfilename = lambda f: find_regex.sub(replace, f)
     else:
         checkmatch = lambda f: find in f
         getnewfilename = lambda f: f.replace(find, replace)
