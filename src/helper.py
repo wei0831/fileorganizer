@@ -11,7 +11,9 @@ import yaml
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
 
-def init_loger(path='conf\\logging.yaml', default_level=logging.INFO):
+def init_loger(path=os.path.dirname(os.path.realpath(__file__)) +
+               '\conf\logging.yaml',
+               default_level=logging.INFO):
     """ Initialize Logging Module
 
     Note: 
