@@ -22,7 +22,7 @@ def movefilestofolder(find, work_dir, to_dir, dryrun=True):
         dryrun (bool, optional): Test Run or not
     """
     if to_dir.startswith("./"):
-        to_dir = work_dir + '//' + to_dir[2:]
+        to_dir = work_dir + '/' + to_dir[2:]
     if to_dir.startswith(".\\"):
         to_dir = work_dir + '\\' + to_dir[2:]
 
