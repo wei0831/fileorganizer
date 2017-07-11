@@ -1,0 +1,56 @@
+---
+version: 1
+disable_existing_loggers: False
+formatters:
+    stdout:
+        format: "%(levelname)-8s|  %(message)s"
+        datefmt: "%m%d%Y %H:%M:%S"
+
+    iofile:
+        format: "[%(asctime)s]  %(name)s:%(levelname)-8s|  %(message)s"
+        datefmt: "%m%d%Y %H:%M:%S"
+
+handlers:
+    console:
+        class: logging.StreamHandler
+        level: DEBUG
+        formatter: stdout
+        stream: ext://sys.stdout
+
+    info_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: INFO
+        formatter: iofile
+        filename: log\\info.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    warn_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: WARNING
+        formatter: iofile
+        filename: log\\warning.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+    error_file_handler:
+        class: logging.handlers.RotatingFileHandler
+        level: ERROR
+        formatter: iofile
+        filename: log\\errors.log
+        maxBytes: 10485760 # 10MB
+        backupCount: 20
+        encoding: utf8
+
+loggers:
+    module:
+        level: ERROR
+        handlers: [console]
+        propagate: yes
+
+root:
+    level: DEBUG
+    handlers: [console, info_file_handler, error_file_handler]
+...
