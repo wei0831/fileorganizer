@@ -57,7 +57,7 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
 
     to_work_len = len(to_work)
     if to_work_len:
-        loger.info("[%s items] to work:", to_work_len)
+        loger.info("[%s items] to work in %s:", to_work_len, work_dir)
 
         for f in to_work:
             loger.info("%s -> %s", f[0], f[1])
@@ -70,11 +70,11 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
 
     not_work_len = len(not_work)
     if not_work_len:
-        loger.info("[%s items] did not work:", not_work_len)
+        loger.info("[%s items] did not work in %s:", not_work_len, work_dir)
 
         for f in not_work:
-            if dryrun:
-                loger.info("%s -> %s", f[0], f[1])
+            loger.warning("%s -> %s", f[0], f[1])
+            # TODO: figure out what to do next
 
     loger.info("=== %s End ===", replacename.__name__)
 
