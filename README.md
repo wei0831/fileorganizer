@@ -1,7 +1,8 @@
-# Fileorganizer
+# Files Organizer
 
-Batch File Organizer
+Batch Files Organizer
 
+## Status
 Working in progress...
 
 ## Requirements
