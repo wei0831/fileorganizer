@@ -5,6 +5,10 @@ Batch File Organizer
 Working in progress...
 
 
+# Index
+- [replacename.py](#replacename)
+
+
 # replacename
 
 ## Usage
@@ -25,11 +29,14 @@ optional arguments:
     -r, --regex           Treat input string as regex
 ```
 
+## Notes
+* You can test run to see the results by NOT using ```-w``` flag
+
 ## Example
 
 ### Remove [Bad] in file name only
 
-```sh
+```bash
 $ python replacename.py "[Bad]" "" -d "D:\Something" -w
 ```
 <table>
@@ -55,7 +62,7 @@ $ python replacename.py "[Bad]" "" -d "D:\Something" -w
 
 ### Replace [Bad] in folder name obly
 
-```sh
+```bash
 $ python replacename.py "[Bad]" "" -d "D:\Something" -m1 -w
 ```
 <table>
@@ -80,7 +87,7 @@ $ python replacename.py "[Bad]" "" -d "D:\Something" -m1 -w
 
 ### Remove [Bad] in both folder name and file name
 
-```sh
+```bash
 $ python replacename.py "[Bad]" "" -d "D:\Something" -m2 -w
 ```
 <table>
@@ -105,7 +112,7 @@ $ python replacename.py "[Bad]" "" -d "D:\Something" -m2 -w
 
 ### Keep only parts of filename using regex
 
-```sh
+```bash
 $ python replacename.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -rw
 ```
 <table>
@@ -128,7 +135,7 @@ $ python replacename.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4"
 
 ### Replace "_" in filename with "-" 
 
-```sh
+```bash
 $ python replacename.py "_" "-" -d "D:\Something" -w
 ```
 <table>
@@ -151,7 +158,7 @@ $ python replacename.py "_" "-" -d "D:\Something" -w
 
 ### Replace "_" in filename with "-" using regex
 
-```sh
+```bash
 $ python replacename.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -rw
 ```
 <table>
