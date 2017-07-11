@@ -1,8 +1,12 @@
 #!/usr/bin/python
+""" replacename.py
+
+"""
 import os
 import shutil
 import re
 import logging
+
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
 FILEONLY = 0
@@ -26,6 +30,7 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
     loger.info("=== %s Start ===", replacename.__name__)
     loger.info("[%s RUN][Mode %s] Replace \"%s\" with \"%s\" in \"%s\"", "DRY"
                if dryrun else "WET", mode, find, replace, work_dir)
+
     if mode == FILEONLY:
         checkmode = lambda f: os.path.isfile(os.path.join(work_dir, f))
     elif mode == FOLDERONLY:
@@ -49,8 +54,6 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
     not_work = []
     for f in matches:
         newfilename = getnewfilename(f)
-        newfilename = os.path.splitext(newfilename)[0] + os.path.splitext(
-            newfilename)[1]
 
         if not newfilename == f:
             to_work.append([f, newfilename])
@@ -70,7 +73,7 @@ def replacename(find, replace, work_dir, dryrun=True, mode=0, regex=False):
 
     not_work_len = len(not_work)
     if not_work_len:
-        loger.info("[%s items] did not work in %s:", not_work_len, work_dir)
+        loger.warning("[%s items] did not work in %s:", not_work_len, work_dir)
 
         for f in not_work:
             loger.warning("%s -> %s", f[0], f[1])
@@ -106,7 +109,7 @@ if __name__ == "__main__":
         help="Treat input string as regex")
     args = parser.parse_args()
 
-    helper.initLoger()
+    helper.init_loger()
 
     replacename(args.find, args.replace, args.dir if args.dir else os.getcwd(),
                 not args.wetrun, args.mode, args.regex)
