@@ -5,7 +5,6 @@
 import os
 import logging
 import shutil
-import re
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -19,7 +18,7 @@ def folderin(work_dir, dryrun=True):
         work_dir (str): Working Directory
         dryrun (bool, optional): Test Run or not
     """
-    if work_dir.endwith('\\'):
+    if work_dir.endswith('\\'):
         work_dir = work_dir[:-1]
 
     loger = logging.getLogger(__name__)
@@ -40,7 +39,6 @@ def folderin(work_dir, dryrun=True):
         for f in to_work:
             foldername = os.path.splitext(f)[0]
             newfolderpath = os.path.join(work_dir, foldername)
-
             if not dryrun and not os.path.exists(newfolderpath):
                 os.mkdir(newfolderpath)
                 loger.info("New folder created: %s", newfolderpath)
