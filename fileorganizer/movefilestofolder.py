@@ -70,7 +70,7 @@ def movefilestofolder(find, work_dir, to_dir, dryrun=True):
 
 
 if __name__ == "__main__":
-    import helper
+    import _helper
     import argparse
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument("find", help="Regex string to find matching files")
@@ -83,6 +83,6 @@ if __name__ == "__main__":
         help="Disable dryrun and Commit changes")
     args = parser.parse_args()
 
-    helper.init_loger()
+    _helper.init_loger()
 
     movefilestofolder(args.find, args.workDir, args.toDir, not args.wetrun)
