@@ -50,12 +50,12 @@ def find_matches_exclude(mode, find, work_dir, exclude=None):
         check_mode = lambda f: os.path.isdir(os.path.join(work_dir, f))
 
     regex_find = re.compile(find)
-    check_match = lambda f: regex_find.match(f) is not None
+    check_match = lambda f: regex_find.search(f) is not None
 
     check_exclude = lambda f: False
     if exclude:
         regex_exlude = re.compile(exclude)
-        check_exclude = lambda f: regex_exlude.match(f) is not None
+        check_exclude = lambda f: regex_exlude.search(f) is not None
 
     for item in os.listdir(work_dir):
         if check_mode(item) and not check_exclude(item) and check_match(item):

@@ -9,16 +9,16 @@ Working in progress...
 - Python 3.5+
 
 # Index
-- [replacename](#replacename)
+- [replace_name](#replace_name)
 - [folderin](#folderin)
 - [folderout](#folderout)
 - [movefilestofolder](#movefilestofolder)
 
-# replacename
+# replace_name
 
 ## Usage
 ```
-usage: replacename.py [-h] [-d DIR] [-m MODE] [-w] [-r] find replace
+usage: replace_name.py [-h] [-d DIR] [-m MODE] [-w] [-r] find replace
 
 Find string in File name/Folder name and replace with another string
 
@@ -31,7 +31,6 @@ optional arguments:
     -d DIR, --dir DIR     Working Directory
     -m MODE, --mode MODE  0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH
     -w, --wetrun          Disable dryrun and Commit changes
-    -r, --regex           Treat input string as regex
 ```
 
 ## Notes
@@ -42,7 +41,7 @@ optional arguments:
 ### Remove [Bad] in file name only
 
 ```bash
-$ python replacename.py "[Bad]" "" -d "D:\Video" -w
+$ python replace_name.py "\[Bad\]" "" -d "D:\Video" -w
 ```
 <table>
     <thead>
@@ -68,7 +67,7 @@ $ python replacename.py "[Bad]" "" -d "D:\Video" -w
 ### Replace [Bad] in folder name obly
 
 ```bash
-$ python replacename.py "[Bad]" "" -d "D:\Video" -m1 -w
+$ python replace_name.py "\[Bad\]" "" -d "D:\Video" -m1 -w
 ```
 <table>
     <thead>
@@ -93,7 +92,7 @@ $ python replacename.py "[Bad]" "" -d "D:\Video" -m1 -w
 ### Remove [Bad] in both folder name and file name
 
 ```bash
-$ python replacename.py "[Bad]" "" -d "D:\Video" -m2 -w
+$ python replace_name.py "\[Bad\]" "" -d "D:\Video" -m2 -w
 ```
 <table>
     <thead>
@@ -115,10 +114,10 @@ $ python replacename.py "[Bad]" "" -d "D:\Video" -m2 -w
     </tbody>
 </table>
 
-### Keep only parts of filename using regex
+### Keep only parts of filename
 
 ```bash
-$ python replacename.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -rw
+$ python replace_name.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -rw
 ```
 <table>
     <thead>
@@ -141,7 +140,7 @@ $ python replacename.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4"
 ### Replace "_" in filename with "-" 
 
 ```bash
-$ python replacename.py "_" "-" -d "D:\Video" -w
+$ python replace_name.py "_" "-" -d "D:\Video" -w
 ```
 <table>
     <thead>
@@ -161,10 +160,10 @@ $ python replacename.py "_" "-" -d "D:\Video" -w
     </tbody>
 </table>
 
-### Replace "_" in filename with "-" using regex
+### Change the name using regex group
 
 ```bash
-$ python replacename.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -rw
+$ python replace_name.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -rw
 ```
 <table>
     <thead>
