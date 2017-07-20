@@ -29,10 +29,10 @@ class Transaction:
             new_dir = os.path.dirname(self.new)
             if not os.path.exists(new_dir):
                 os.makedirs(new_dir)
-
-            new_file_name = os.path.splitext(os.path.basename(self.new))[0]
-            new_file_ext = os.path.splitext(os.path.basename(self.new))[1]
-            if os.path.exists(self.new):
+            new_file = os.path.basename(self.new)
+            new_file_name = os.path.splitext(new_file)[0]
+            new_file_ext = os.path.splitext(new_file)[1]
+            if new_file in os.listdir(new_dir):
                 self.status["dup"] = True
                 i = 0
                 new_file_name_attempt = self.new
@@ -51,6 +51,7 @@ class Transaction:
         if self.action == "rmdir":
             os.rmdir(self.old)
             self.status["done"] = True
+            self.loger.info("[RMDIR] [%s]", self.old)
 
     def __str__(self):
         return "[%s] [%s] -> [%s]" % (self.action, self.old, self.new)
