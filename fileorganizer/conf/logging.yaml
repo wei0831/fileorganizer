@@ -52,5 +52,5 @@ loggers:
 
 root:
     level: DEBUG
-    handlers: [console, info_file_handler, error_file_handler]
+    handlers: [console, info_file_handler, warn_file_handler, error_file_handler]
 ...

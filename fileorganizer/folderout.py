@@ -6,6 +6,7 @@ import os
 import logging
 import shutil
 from _transaction import Transaction
+import _helper
 from _helper import find_matches_exclude
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
@@ -49,13 +50,13 @@ def folderout(work_dir, to_dir=None, dryrun=True):
                            if to_dir is not None else work_dir):
         if not dryrun:
             item.commit()
-        loger.info("%s", item)
+        else:
+            loger.info("%s", item)
 
     loger.info("=== %s End ===", this_name)
 
 
 if __name__ == "__main__":
-    import _helper
     import argparse
     parser = argparse.ArgumentParser(description=DESCRIPTION)
     parser.add_argument("workDir", help="Working Directory")

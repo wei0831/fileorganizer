@@ -41,7 +41,8 @@ def moveintofolder(find, work_dir, to_dir, exclude=None, dryrun=True, mode=0):
     for item in _moveintofolder(find, work_dir, to_dir, exclude, mode):
         if not dryrun:
             item.commit()
-        loger.info("%s", item)
+        else:
+            loger.info("%s", item)
 
     loger.info("=== %s End ===", this_name)
 

@@ -48,12 +48,13 @@ def replacename(find, replace, work_dir, exclude=None, dryrun=True, mode=0):
     loger.info("=== %s [%s RUN] start ===", this_name, "DRY"
                if dryrun else "WET")
 
-    for item in replacename(find, replace, work_dir, mode, exclude):
+    for item in _replacename(find, replace, work_dir, mode, exclude):
         if not dryrun:
             item.commit()
-        loger.info("%s", item)
+        else:
+            loger.info("%s", item)
 
-    loger.info("=== %s end ===")
+    loger.info("=== %s end ===", this_name)
 
 
 if __name__ == "__main__":
@@ -63,8 +64,8 @@ if __name__ == "__main__":
         "find", help="String to Replace in filename/foldername")
     parser.add_argument(
         "replace", help="To Replace With in filename/foldername")
+    parser.add_argument("dir", help="Working Directory")
     parser.add_argument("-e", "--exclude", help="Exclude regex pattern")
-    parser.add_argument("-d", "--dir", help="Working Directory")
     parser.add_argument(
         "-m",
         "--mode",
@@ -80,5 +81,5 @@ if __name__ == "__main__":
 
     _helper.init_loger()
 
-    replacename(args.find, args.replace, args.dir if args.dir else os.getcwd(),
-                args.exclude, not args.wetrun, args.mode)
+    replacename(args.find, args.replace, args.dir, args.exclude,
+                not args.wetrun, args.mode)

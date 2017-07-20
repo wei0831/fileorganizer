@@ -4,6 +4,7 @@
 """
 import os
 import shutil
+import logging
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -15,6 +16,7 @@ class Transaction:
     def __init__(self, old, new, action):
         """ TODO
         """
+        self.loger = logging.getLogger(self.__class__.__name__)
         self.old = old
         self.new = new
         self.action = action
@@ -40,17 +42,18 @@ class Transaction:
                         new_dir,
                         new_file_name + "[Copy" + str(i) + "]" + new_file_ext)
                 self.new = new_file_name_attempt
+                self.loger.warning("[Duplicated] [%s]", self.new)
 
             shutil.move(self.old, self.new)
             self.status["done"] = True
+            self.loger.info("[Moved] [%s] -> [%s]", self.old, self.new)
 
         if self.action == "rmdir":
             os.rmdir(self.old)
             self.status["done"] = True
 
     def __str__(self):
-        return "[%s] [%s] -> [%s] [%s]" % (self.action, self.old, self.new,
-                                           self.status)
+        return "[%s] [%s] -> [%s]" % (self.action, self.old, self.new)
 
     def __repr__(self):
         return "<%s, %s, %s, %s>" % (self.action, self.old, self.new,
