@@ -117,7 +117,7 @@ $ python replace_name.py "\[Bad\]" "" -d "D:\Video" -m2 -w
 ### Keep only parts of filename
 
 ```bash
-$ python replace_name.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -rw
+$ python replace_name.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -w
 ```
 <table>
     <thead>
@@ -163,7 +163,7 @@ $ python replace_name.py "_" "-" -d "D:\Video" -w
 ### Change the name using regex group
 
 ```bash
-$ python replace_name.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -rw
+$ python replace_name.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -w
 ```
 <table>
     <thead>
