@@ -1,3 +1,7 @@
+#!/usr/bin/python
+""" _transaction.py
+
+"""
 import os
 import shutil
 
@@ -20,20 +24,28 @@ class Transaction:
         """ TODO
         """
         if self.action == "move":
+            new_dir = os.path.dirname(self.new)
+            if not os.path.exists(new_dir):
+                os.makedirs(new_dir)
+
+            new_file_name = os.path.splitext(os.path.basename(self.new))[0]
+            new_file_ext = os.path.splitext(os.path.basename(self.new))[1]
             if os.path.exists(self.new):
                 self.status["dup"] = True
-                dirpath = os.path.dirname(self.new)
-                filename = os.path.splitext(os.path.basename(self.new))[0]
-                fileext = os.path.splitext(os.path.basename(self.new))[1]
                 i = 0
-                newname_attempt = self.new
-                while os.path.exists(newname_attempt):
+                new_file_name_attempt = self.new
+                while os.path.exists(new_file_name_attempt):
                     i += 1
-                    newname_attempt = os.path.join(
-                        dirpath, filename + "[Copy" + str(i) + "]" + fileext)
-                self.new = newname_attempt
+                    new_file_name_attempt = os.path.join(
+                        new_dir,
+                        new_file_name + "[Copy" + str(i) + "]" + new_file_ext)
+                self.new = new_file_name_attempt
 
             shutil.move(self.old, self.new)
+            self.status["done"] = True
+
+        if self.action == "rmdir":
+            os.rmdir(self.old)
             self.status["done"] = True
 
     def __str__(self):

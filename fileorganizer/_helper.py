@@ -1,5 +1,5 @@
 #!/usr/bin/python
-""" helper.py
+""" _helper.py
 
 This module contains several helper functions
 """
@@ -49,8 +49,10 @@ def find_matches_exclude(mode, find, work_dir, exclude=None):
     elif mode == FOLDERONLY:
         check_mode = lambda f: os.path.isdir(os.path.join(work_dir, f))
 
-    regex_find = re.compile(find)
-    check_match = lambda f: regex_find.search(f) is not None
+    check_match = lambda f: True
+    if find is not None:
+        regex_find = re.compile(find)
+        check_match = lambda f: regex_find.search(f) is not None
 
     check_exclude = lambda f: False
     if exclude:
