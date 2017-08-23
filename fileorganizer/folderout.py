@@ -25,7 +25,7 @@ def _folderout(work_dir, to_dir):
         for item in os.listdir(old_dir):
             old_path = os.path.join(old_dir, item)
             new_path = os.path.join(to_dir, item)
-            yield Transaction(old_path, new_path, "move")
+            yield Transaction(old_path, new_path, "mv")
 
     for folder in dir_towork:
         yield Transaction(folder, None, "rmdir")

@@ -3,7 +3,10 @@
 
 This module contains several helper functions
 """
+import errno
 import os
+import stat
+import shutil
 import logging
 import logging.config
 import re
@@ -62,3 +65,11 @@ def find_matches_exclude(mode, find, work_dir, exclude=None):
     for item in os.listdir(work_dir):
         if check_mode(item) and not check_exclude(item) and check_match(item):
             yield item
+
+def handleRemoveReadonly(func, path, exc):
+    """ TODO
+    """
+    excvalue = exc[1]
+    if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
+        os.chmod(path, stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO) # 0777
+        func(path)

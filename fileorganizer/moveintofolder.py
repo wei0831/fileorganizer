@@ -19,7 +19,7 @@ def _moveintofolder(find, work_dir, to_dir, exclude=None, mode=0):
         oldnamepath = os.path.join(work_dir, item)
         newnamepath = os.path.join(to_dir, item)
 
-        yield Transaction(oldnamepath, newnamepath, "move")
+        yield Transaction(oldnamepath, newnamepath, "mv")
 
 
 def moveintofolder(find, work_dir, to_dir, exclude=None, dryrun=True, mode=0):

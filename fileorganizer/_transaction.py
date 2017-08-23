@@ -3,6 +3,7 @@
 
 """
 import os
+import _helper
 import shutil
 import logging
 
@@ -25,7 +26,7 @@ class Transaction:
     def commit(self):
         """ TODO
         """
-        if self.action == "move":
+        if self.action == "mv":
             new_dir = os.path.dirname(self.new)
             if not os.path.exists(new_dir):
                 os.makedirs(new_dir)
@@ -49,7 +50,7 @@ class Transaction:
             self.loger.info("[Moved] [%s] -> [%s]", self.old, self.new)
 
         if self.action == "rmdir":
-            os.rmdir(self.old)
+            shutil.rmtree(self.old, ignore_errors=False, onerror=_helper.handleRemoveReadonly)
             self.status["done"] = True
             self.loger.info("[RMDIR] [%s]", self.old)
 

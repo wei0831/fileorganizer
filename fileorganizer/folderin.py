@@ -20,7 +20,7 @@ def _folderin(work_dir):
     for files in matches:
         form_dir = os.path.join(work_dir, files)
         to_dir = os.path.join(work_dir, os.path.splitext(files)[0], files)
-        yield Transaction(form_dir, to_dir, "move")
+        yield Transaction(form_dir, to_dir, "mv")
 
 
 def folderin(work_dir, dryrun=True):

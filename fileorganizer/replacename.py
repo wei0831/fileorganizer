@@ -27,7 +27,7 @@ def _replacename(find, replace, work_dir, mode=0, exclude=None):
             oldnamepath = os.path.join(work_dir, oldname)
             newnamepath = os.path.join(work_dir, newname)
 
-            yield Transaction(oldnamepath, newnamepath, "move")
+            yield Transaction(oldnamepath, newnamepath, "mv")
 
 
 def replacename(find, replace, work_dir, exclude=None, dryrun=True, mode=0):
