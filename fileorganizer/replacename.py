@@ -6,9 +6,10 @@ import os
 import os.path
 import re
 import logging
-import _helper
-from _helper import find_matches_exclude
-from _transaction import Transaction
+import click
+from fileorganizer import _helper
+from fileorganizer._helper import find_matches_exclude
+from fileorganizer._transaction import Transaction
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -23,33 +24,52 @@ def _replacename(find, replace, work_dir, mode=0, exclude=None):
     for oldname in matches:
         newname = get_newname(oldname)
 
-        if not newname == oldname:
+        if not newname == oldname and not newname == "":
             oldnamepath = os.path.join(work_dir, oldname)
             newnamepath = os.path.join(work_dir, newname)
 
             yield Transaction(oldnamepath, newnamepath, "mv")
 
 
-def replacename(find, replace, work_dir, exclude=None, dryrun=True, mode=0):
+@click.command()
+@click.argument('find', type=click.STRING)
+@click.argument('replace', type=click.STRING)
+@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
+@click.option(
+    '--exclude',
+    '-e',
+    default=None,
+    type=click.STRING,
+    help="Exclude regex pattern")
+@click.option(
+    '--mode',
+    '-m',
+    default=0,
+    type=click.INT,
+    help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
+@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
+def replacename(find, replace, work_dir, exclude=None, mode=0, wetrun=False):
     """ Find string in File name/Folder name and replace with another string
 
+    \b
     Args:
         find (str): Regex string to find in filename/foldername
         replace (str): Regex string to replace in filename/foldername
         work_dir (str): Working Directory
-        exclude (str): Regex string to exclude in mattches
-        dryrun (bool, optional): Test Run or not
+        exclude (str, optional): Regex string to exclude in mattches
         mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
+        wetrun (bool, optional): Test Run or not
     """
-    this_name = replacename.__name__
+    _helper.init_loger()
+    this_name = os.path.basename(__file__)
     loger = logging.getLogger(this_name)
-    loger.info("Replace \"%s\" with \"%s\" in \"%s\" [Mode %s]", find, replace,
+    loger.info("Replace \"%s\" with \"%s\" in \"%s\"; Mode %s", find, replace,
                work_dir, mode)
-    loger.info("=== %s [%s RUN] start ===", this_name, "DRY"
-               if dryrun else "WET")
+    loger.info("=== %s [%s RUN] start ===", this_name, "WET"
+               if wetrun else "DRY")
 
     for item in _replacename(find, replace, work_dir, mode, exclude):
-        if not dryrun:
+        if wetrun:
             item.commit()
         else:
             loger.info("%s", item)
@@ -58,28 +78,4 @@ def replacename(find, replace, work_dir, exclude=None, dryrun=True, mode=0):
 
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument(
-        "find", help="String to Replace in filename/foldername")
-    parser.add_argument(
-        "replace", help="To Replace With in filename/foldername")
-    parser.add_argument("dir", help="Working Directory")
-    parser.add_argument("-e", "--exclude", help="Exclude regex pattern")
-    parser.add_argument(
-        "-m",
-        "--mode",
-        type=int,
-        default=0,
-        help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
-    parser.add_argument(
-        "-w",
-        "--wetrun",
-        action="store_true",
-        help="Disable dryrun and Commit changes")
-    args = parser.parse_args()
-
-    _helper.init_loger()
-
-    replacename(args.find, args.replace, args.dir, args.exclude,
-                not args.wetrun, args.mode)
+    replacename()

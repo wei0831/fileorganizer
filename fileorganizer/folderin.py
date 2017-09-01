@@ -4,10 +4,10 @@
 """
 import os
 import logging
-import shutil
-from _transaction import Transaction
-import _helper
-from _helper import find_matches_exclude
+import click
+from fileorganizer import _helper
+from fileorganizer._transaction import Transaction
+from fileorganizer._helper import find_matches_exclude
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -23,22 +23,27 @@ def _folderin(work_dir):
         yield Transaction(form_dir, to_dir, "mv")
 
 
-def folderin(work_dir, dryrun=True):
+@click.command()
+@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
+@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
+def folderin(work_dir, wetrun=False):
     """ Put files into folder with the same name
 
+    \b
     Args:
-        work_dir (str): Working Directory
-        dryrun (bool, optional): Test Run or not
+      work_dir (str): Working Directory
+      wetrun (bool, optional): Test Run or not
     """
-    this_name = folderin.__name__
+    _helper.init_loger()
+    this_name = os.path.basename(__file__)
     loger = logging.getLogger(this_name)
 
-    loger.info("Files will be moved to infividual folders in \"%s\"", work_dir)
-    loger.info("=== %s [%s RUN] start ===", this_name, "DRY"
-               if dryrun else "WET")
+    loger.info("Files move to individual folders in \"%s\"", work_dir)
+    loger.info("=== %s [%s RUN] start ===", this_name, "WET"
+               if wetrun else "DRY")
 
     for item in _folderin(work_dir):
-        if not dryrun:
+        if wetrun:
             item.commit()
         else:
             loger.info("%s", item)
@@ -47,16 +52,4 @@ def folderin(work_dir, dryrun=True):
 
 
 if __name__ == "__main__":
-    import argparse
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument("workDir", help="Working Directory")
-    parser.add_argument(
-        "-w",
-        "--wetrun",
-        action="store_true",
-        help="Disable dryrun and Commit changes")
-    args = parser.parse_args()
-
-    _helper.init_loger()
-
-    folderin(args.workDir, not args.wetrun)
+    folderin()

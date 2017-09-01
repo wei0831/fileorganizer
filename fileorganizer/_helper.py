@@ -25,8 +25,8 @@ def init_loger(path=os.path.dirname(os.path.realpath(__file__)) +
         path (str, optional): path to .yaml config file
         default_level (int, optional): logging level
     """
-    if not os.path.exists('log'):
-        os.mkdir('log')
+    if not os.path.exists('fo_log'):
+        os.mkdir('fo_log')
 
     if os.path.exists(path):
         with open(path, 'rt') as config:
@@ -36,6 +36,7 @@ def init_loger(path=os.path.dirname(os.path.realpath(__file__)) +
         logging.getLogger(__name__).debug("Config '%s' is loaded.", path)
     else:
         logging.basicConfig(level=default_level)
+        logging.getLogger(__name__).debug("Default Config is loaded.", path)
 
 
 FILEONLY = 0
@@ -66,10 +67,11 @@ def find_matches_exclude(mode, find, work_dir, exclude=None):
         if check_mode(item) and not check_exclude(item) and check_match(item):
             yield item
 
+
 def handleRemoveReadonly(func, path, exc):
     """ TODO
     """
     excvalue = exc[1]
     if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
-        os.chmod(path, stat.S_IRWXU| stat.S_IRWXG| stat.S_IRWXO) # 0777
+        os.chmod(path, stat.S_IRWXU | stat.S_IRWXG | stat.S_IRWXO)  # 0777
         func(path)

@@ -4,8 +4,10 @@
 """
 import os
 import logging
-from _transaction import Transaction
-from _helper import find_matches_exclude
+import click
+from fileorganizer import _helper
+from fileorganizer._transaction import Transaction
+from fileorganizer._helper import find_matches_exclude
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -22,24 +24,46 @@ def _moveintofolder(find, work_dir, to_dir, exclude=None, mode=0):
         yield Transaction(oldnamepath, newnamepath, "mv")
 
 
-def moveintofolder(find, work_dir, to_dir, exclude=None, dryrun=True, mode=0):
+@click.command()
+@click.argument('find', type=click.STRING)
+@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
+@click.argument('to_dir', type=click.Path(resolve_path=True, dir_okay=True))
+@click.option(
+    '--exclude',
+    '-e',
+    default=None,
+    type=click.STRING,
+    help="Exclude regex pattern")
+@click.option(
+    '--mode',
+    '-m',
+    default=0,
+    type=click.INT,
+    help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
+@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
+def moveintofolder(find, work_dir, to_dir, exclude=None, mode=0, wetrun=False):
     """ Move matching files/folder into a folder
 
+    \b
     Args:
-        find (str): Regex String to find matching files
+        find (str): Regex string to find in filename/foldername
         work_dir (str): Working Directory
-        to_dir (str): Move to Target Directory
-        dryrun (bool, optional): Test Run or not
+        to_dir (str): Target Directory
+        exclude (str, optional): Regex string to exclude in mattches
+        mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
+        wetrun (bool, optional): Test Run or not
     """
-    this_name = moveintofolder.__name__
+    _helper.init_loger()
+    this_name = os.path.basename(__file__)
     loger = logging.getLogger(this_name)
-    loger.info("Files matches \"%s\" in \"%s\" will be moved to \"%s\"", find,
-               work_dir, to_dir)
-    loger.info("=== %s [%s RUN] start ===", this_name, "DRY"
-               if dryrun else "WET")
+    loger.info(
+        "Matches \"%s\" in \"%s\"; Excludes \"%s\"; Moved to \"%s\"; Mode %s",
+        find, work_dir, exclude, to_dir, mode)
+    loger.info("=== %s [%s RUN] start ===", this_name, "WET"
+               if wetrun else "DRY")
 
     for item in _moveintofolder(find, work_dir, to_dir, exclude, mode):
-        if not dryrun:
+        if wetrun:
             item.commit()
         else:
             loger.info("%s", item)
@@ -48,27 +72,4 @@ def moveintofolder(find, work_dir, to_dir, exclude=None, dryrun=True, mode=0):
 
 
 if __name__ == "__main__":
-    import _helper
-    import argparse
-    parser = argparse.ArgumentParser(description=DESCRIPTION)
-    parser.add_argument("find", help="Regex string to find matching files")
-    parser.add_argument("workDir", help="Working Directory")
-    parser.add_argument("toDir", help="Target Directory")
-    parser.add_argument("-e", "--exclude", help="Exclude regex pattern")
-    parser.add_argument(
-        "-m",
-        "--mode",
-        type=int,
-        default=0,
-        help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
-    parser.add_argument(
-        "-w",
-        "--wetrun",
-        action="store_true",
-        help="Disable dryrun and Commit changes")
-    args = parser.parse_args()
-
-    _helper.init_loger()
-
-    moveintofolder(args.find, args.workDir, args.toDir, args.exclude,
-                   not args.wetrun, args.mode)
+    moveintofolder()

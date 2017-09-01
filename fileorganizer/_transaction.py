@@ -3,7 +3,7 @@
 
 """
 import os
-import _helper
+from fileorganizer import _helper
 import shutil
 import logging
 
@@ -50,7 +50,10 @@ class Transaction:
             self.loger.info("[Moved] [%s] -> [%s]", self.old, self.new)
 
         if self.action == "rmdir":
-            shutil.rmtree(self.old, ignore_errors=False, onerror=_helper.handleRemoveReadonly)
+            shutil.rmtree(
+                self.old,
+                ignore_errors=False,
+                onerror=_helper.handleRemoveReadonly)
             self.status["done"] = True
             self.loger.info("[RMDIR] [%s]", self.old)
 

@@ -8,6 +8,12 @@ Working in progress...
 ## Requirements
 - Python 3.5+
 
+## Install
+```bash
+cd fileorganizer
+easy_install -m .
+```
+
 # Index
 - [replacename](#replacename)
 - [folderin](#folderin)
@@ -18,30 +24,34 @@ Working in progress...
 
 ## Usage
 ```
-usage: replacename.py [-h] [-d DIR] [-m MODE] [-w] [-r] find replace
+Usage: replacename [OPTIONS] FIND REPLACE WORK_DIR
 
-Find string in File name/Folder name and replace with another string
+  Find string in File name/Folder name and replace with another string
 
-positional arguments:
-    find                  String to Replace in filename/foldername
-    replace               To Replace With in filename/foldername
+  Args:
+      find (str): Regex string to find in filename/foldername
+      replace (str): Regex string to replace in filename/foldername
+      work_dir (str): Working Directory
+      exclude (str, optional): Regex string to exclude in mattches
+      mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
+      wetrun (bool, optional): Test Run or not
 
-optional arguments:
-    -h, --help            show this help message and exit
-    -d DIR, --dir DIR     Working Directory
-    -m MODE, --mode MODE  0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH
-    -w, --wetrun          Disable dryrun and Commit changes
+Options:
+  -e, --exclude TEXT  Exclude regex pattern
+  -m, --mode INTEGER  0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH
+  -w, --wetrun        Commit changes
+  --help              Show this message and exit.
 ```
 
 ## Notes
-* You can test run to see the results by NOT using ```-w``` flag
+* Commit changes by using ```-w``` flag
 
 ## Example
 
 ### Remove [Bad] in file name only
 
 ```bash
-$ python replacename.py "\[Bad\]" "" -d "D:\Video" -w
+$ replacename "\[Bad\]" "" -d "D:\Video" -w
 ```
 <table>
     <thead>
@@ -67,7 +77,7 @@ $ python replacename.py "\[Bad\]" "" -d "D:\Video" -w
 ### Replace [Bad] in folder name obly
 
 ```bash
-$ python replacename.py "\[Bad\]" "" -d "D:\Video" -m1 -w
+$ replacename "\[Bad\]" "" -d "D:\Video" -m1 -w
 ```
 <table>
     <thead>
@@ -92,7 +102,7 @@ $ python replacename.py "\[Bad\]" "" -d "D:\Video" -m1 -w
 ### Remove [Bad] in both folder name and file name
 
 ```bash
-$ python replacename.py "\[Bad\]" "" -d "D:\Video" -m2 -w
+$ replacename "\[Bad\]" "" -d "D:\Video" -m2 -w
 ```
 <table>
     <thead>
@@ -117,7 +127,7 @@ $ python replacename.py "\[Bad\]" "" -d "D:\Video" -m2 -w
 ### Keep only parts of filename
 
 ```bash
-$ python replacename.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -w
+$ replacename "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -w
 ```
 <table>
     <thead>
@@ -140,7 +150,7 @@ $ python replacename.py "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4"
 ### Replace "_" in filename with "-" 
 
 ```bash
-$ python replacename.py "_" "-" -d "D:\Video" -w
+$ replacename "_" "-" -d "D:\Video" -w
 ```
 <table>
     <thead>
@@ -163,7 +173,7 @@ $ python replacename.py "_" "-" -d "D:\Video" -w
 ### Change the name using regex group
 
 ```bash
-$ python replacename.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -w
+$ replacename "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -d "D:\Something" -w
 ```
 <table>
     <thead>
@@ -187,16 +197,17 @@ $ python replacename.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "
 
 ## Usage
 ```
-usage: folderin.py [-h] [-w] workDir
+Usage: folderin [OPTIONS] WORK_DIR
 
-Put files into folder with the same name
+  Put files into folder with the same name
 
-positional arguments:
-  workDir       Working Directory
+  Args:
+    work_dir (str): Working Directory
+    wetrun (bool, optional): Test Run or not
 
-optional arguments:
-  -h, --help    show this help message and exit
-  -w, --wetrun  Disable dryrun and Commit changes
+Options:
+  -w, --wetrun  Commit changes
+  --help        Show this message and exit.
 ```
 
 ## Example
@@ -204,7 +215,7 @@ optional arguments:
 ### Move Something_SXXEXX into their individual folder
 
 ```bash
-$ python folderin.py "D:\Video" -w
+$ folderin "D:\Video" -w
 ```
 <table>
     <thead>
@@ -233,17 +244,19 @@ $ python folderin.py "D:\Video" -w
 
 ## Usage
 ```
-usage: folderout.py [-h] [-t TO] [-w] workDir
+Usage: folderout [OPTIONS] WORK_DIR
 
-Move files out of folders
+  Move files out of folders
 
-positional arguments:
-  workDir         Working Directory
+  Args:
+      work_dir (str): Working Directory
+      to_dir (str, optional): Target Directory
+      wetrun (bool, optional): Test Run or not
 
-optional arguments:
-  -h, --help      show this help message and exit
-  -t TO, --to TO  Target Directory
-  -w, --wetrun    Disable dryrun and Commit changes
+Options:
+  -t, --to_dir PATH  Target Directory
+  -w, --wetrun       Commit changes
+  --help             Show this message and exit.
 ```
 
 ## Example
@@ -251,7 +264,7 @@ optional arguments:
 ### Move files in the folder out
 
 ```bash
-$ python folderout.py "D:\Video" -w
+$ folderout "D:\Video" -w
 ```
 <table>
     <thead>
@@ -279,18 +292,23 @@ $ python folderout.py "D:\Video" -w
 
 ## Usage
 ```
-usage: movefilestofolder.py [-h] [-w] find workDir toDir
+Usage: moveintofolder [OPTIONS] FIND WORK_DIR TO_DIR
 
-Move matching files into a folder
+  Move matching files/folder into a folder
 
-positional arguments:
-  find          Regex string to find matching files
-  workDir       Working Directory
-  toDir         Target Directory
+  Args:
+      find (str): Regex string to find in filename/foldername
+      work_dir (str): Working Directory
+      to_dir (str): Target Directory
+      exclude (str, optional): Regex string to exclude in mattches
+      mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
+      wetrun (bool, optional): Test Run or not
 
-optional arguments:
-  -h, --help    show this help message and exit
-  -w, --wetrun  Disable dryrun and Commit changes
+Options:
+  -e, --exclude TEXT  Exclude regex pattern
+  -m, --mode INTEGER  0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH
+  -w, --wetrun        Commit changes
+  --help              Show this message and exit.
 ```
 
 ## Example
@@ -298,7 +316,7 @@ optional arguments:
 ### Move all Something_SXXEXX video files into a folder
 
 ```bash
-$ python movefilestofolder.py "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)" "D:\Video" ".\Somthing_Collection" -w
+$ movefilestofolder "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)" "D:\Video" ".\Somthing_Collection" -w
 ```
 <table>
     <thead>
