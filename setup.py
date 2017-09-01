@@ -11,7 +11,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'click>=4.0',
+        'click>=6.0',
     ],
     entry_points={
         'console_scripts': [

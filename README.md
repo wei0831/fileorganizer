@@ -6,11 +6,17 @@ Batch Files Organizer
 Working in progress...
 
 ## Requirements
-- Python 3.5+
+- python 3.5+
+- [setuptools](https://github.com/pypa/setuptools)
+- [click](https://github.com/pallets/click)
 
 ## Install
 ```bash
+# Navigate to the folder that contains setup.py 
 cd fileorganizer
+```
+```bash
+# Install
 easy_install -m .
 ```
 
