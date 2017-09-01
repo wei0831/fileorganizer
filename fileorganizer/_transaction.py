@@ -4,8 +4,6 @@
 """
 import os
 from fileorganizer import _helper
-import shutil
-import logging
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 

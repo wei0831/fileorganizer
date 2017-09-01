@@ -6,7 +6,6 @@ This module contains several helper functions
 import errno
 import os
 import stat
-import shutil
 import logging
 import logging.config
 import re
