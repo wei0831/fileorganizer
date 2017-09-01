@@ -66,12 +66,12 @@ $ replacename "\[Bad\]" "" -d "D:\Video" -w
     <tbody>
         <tr>
             <td><pre><code>.
-├── [Bad]Something_Folder 
+├── [Bad]Something_Folder[Bad] 
 ├── [Bad]Something_S01E01[Bad].mp4
 ├── [Bad]Something_S01E02[Bad].avi
             </code></pre></td>
             <td><pre><code>.
-├── [Bad]Something_Folder  
+├── [Bad]Something_Folder[Bad]  
 ├── Something_S01E01.mp4
 ├── Something_S01E02.avi
             </code></pre></td>
@@ -92,7 +92,7 @@ $ replacename "\[Bad\]" "" -d "D:\Video" -m1 -w
     <tbody>
         <tr>
             <td><pre><code>.
-├── [Bad]Something_Folder   
+├── [Bad]Something_Folder[Bad]   
 ├── [Bad]Something_S01E01[Bad].mp4
 ├── [Bad]Something_S01E02[Bad].avi
             </code></pre></td>
@@ -117,35 +117,12 @@ $ replacename "\[Bad\]" "" -d "D:\Video" -m2 -w
     <tbody>
         <tr>
             <td><pre><code>.
-├── [Bad]Something_Folder   
+├── [Bad]Something_Folder[Bad]   
 ├── [Bad]Something_S01E01[Bad].mp4
 ├── [Bad]Something_S01E02[Bad].avi
             </code></pre></td>
             <td><pre><code>.
 ├── Something_Folder
-├── Something_S01E01.mp4
-├── Something_S01E02.avi
-            </code></pre></td>
-        </tr>
-    </tbody>
-</table>
-
-### Keep only parts of filename
-
-```bash
-$ replacename "(.*)(Something_S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2\4" -d "D:\Something" -w
-```
-<table>
-    <thead>
-        <tr><th>Before</th><th>After</th></tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><pre><code>.
-├── [Bad]Something_S01E01[Bad].mp4
-├── [Bad]Something_S01E02[Bad].avi
-            </code></pre></td>
-            <td><pre><code>.
 ├── Something_S01E01.mp4
 ├── Something_S01E02.avi
             </code></pre></td>
@@ -188,8 +165,8 @@ $ replacename "(.*)(Something)(.*)(S[0-9]+E[0-9]+)(.*)(\.(mp4|avi))" "\2-\4\6" -
     <tbody>
         <tr>
             <td><pre><code>.
-├── [Bad]Something_S01E01[Bad].mp4
-├── [Bad]Something_S01E02[Bad].avi
+├── [20240202]Something_S01E01[Bad].mp4
+├── [20240207]Something_S01E02[Bad].avi
             </code></pre></td>
             <td><pre><code>.
 ├── Something-S01E01.mp4
