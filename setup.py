@@ -15,10 +15,11 @@ setup(
     ],
     entry_points={
         'console_scripts': [
-            'folderin=fileorganizer.folderin:folderin',
-            'folderout=fileorganizer.folderout:folderout',
-            'moveintofolder=fileorganizer.moveintofolder:moveintofolder',
-            'replacename=fileorganizer.replacename:replacename',
+            'folderin=fileorganizer.cli:cli_folderin',
+            'folderout=fileorganizer.cli:cli_folderout',
+            'moveintofolder=fileorganizer.cli:cli_moveintofolder',
+            'replacename=fileorganizer.cli:cli_replacename',
+            'fanhaorename=fileorganizer.cli:cli_fanhaorename',
         ],
     },
     package_data={

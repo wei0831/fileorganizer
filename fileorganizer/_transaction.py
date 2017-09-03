@@ -3,6 +3,8 @@
 
 """
 import os
+import shutil
+import logging
 from fileorganizer import _helper
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
@@ -15,7 +17,8 @@ class Transaction:
     def __init__(self, old, new, action):
         """ TODO
         """
-        self.loger = logging.getLogger(self.__class__.__name__)
+        this_name = os.path.basename(__file__)
+        self.loger = logging.getLogger(this_name)
         self.old = old
         self.new = new
         self.action = action
@@ -41,11 +44,11 @@ class Transaction:
                         new_dir,
                         new_file_name + "[Copy" + str(i) + "]" + new_file_ext)
                 self.new = new_file_name_attempt
-                self.loger.warning("[Duplicated] [%s]", self.new)
+                self.loger.warning("[!!DUP!!] [%s]", self.new)
 
             shutil.move(self.old, self.new)
             self.status["done"] = True
-            self.loger.info("[Moved] [%s] -> [%s]", self.old, self.new)
+            self.loger.info("[MOVED] [%s] -> [%s]", self.old, self.new)
 
         if self.action == "rmdir":
             shutil.rmtree(

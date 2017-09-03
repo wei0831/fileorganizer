@@ -4,7 +4,7 @@
 """
 import os
 import logging
-import click
+import fileorganizer
 from fileorganizer import _helper
 from fileorganizer._transaction import Transaction
 from fileorganizer._helper import find_matches_exclude
@@ -31,16 +31,10 @@ def _folderout(work_dir, to_dir):
         yield Transaction(folder, None, "rmdir")
 
 
-@click.command()
-@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
-@click.option(
-    '--to_dir',
-    '-t',
-    default=None,
-    type=click.Path(exists=True, resolve_path=True),
-    help="Target Directory")
-@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
-def folderout(work_dir, to_dir=None, wetrun=False):
+def folderout(work_dir,
+              to_dir=None,
+              wetrun=False,
+              this_name=os.path.basename(__file__)):
     """ Move files out of folders
     
     \b
@@ -53,11 +47,11 @@ def folderout(work_dir, to_dir=None, wetrun=False):
         to_dir = work_dir
 
     _helper.init_loger()
-    this_name = os.path.basename(__file__)
+    this_run = "WET" if wetrun else "DRY"
     loger = logging.getLogger(this_name)
-    loger.info("Move files in folders in \"%s\" to \"%s\"", work_dir, to_dir)
-    loger.info("=== %s [%s RUN] start ===", this_name, "WET"
-               if wetrun else "DRY")
+    loger.info("[START] === %s [%s RUN] ===", this_name, this_run)
+    loger.info("[DO] Move files in folders in \"%s\" to \"%s\"", work_dir,
+               to_dir)
 
     for item in _folderout(work_dir, to_dir):
         if wetrun:
@@ -65,8 +59,8 @@ def folderout(work_dir, to_dir=None, wetrun=False):
         else:
             loger.info("%s", item)
 
-    loger.info("=== %s End ===", this_name)
+    loger.info("[END] === %s [%s RUN] ===", this_name, this_run)
 
 
 if __name__ == "__main__":
-    folderout()
+    fileorganizer.cli.cli_folderout()

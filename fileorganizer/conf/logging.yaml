@@ -7,7 +7,7 @@ formatters:
         datefmt: "%m%d%Y %H:%M:%S"
 
     iofile:
-        format: "[%(asctime)s]  %(name)s:%(levelname)-8s|  %(message)s"
+        format: "[%(asctime)s]  %(name)s:%(levelname)-20s|  %(message)s"
         datefmt: "%m%d%Y %H:%M:%S"
 
 handlers:

@@ -6,7 +6,7 @@ import os
 import os.path
 import re
 import logging
-import click
+import fileorganizer
 from fileorganizer import _helper
 from fileorganizer._helper import find_matches_exclude
 from fileorganizer._transaction import Transaction
@@ -31,24 +31,13 @@ def _replacename(find, replace, work_dir, mode=0, exclude=None):
             yield Transaction(oldnamepath, newnamepath, "mv")
 
 
-@click.command()
-@click.argument('find', type=click.STRING)
-@click.argument('replace', type=click.STRING)
-@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
-@click.option(
-    '--exclude',
-    '-e',
-    default=None,
-    type=click.STRING,
-    help="Exclude regex pattern")
-@click.option(
-    '--mode',
-    '-m',
-    default=0,
-    type=click.INT,
-    help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
-@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
-def replacename(find, replace, work_dir, exclude=None, mode=0, wetrun=False):
+def replacename(find,
+                replace,
+                work_dir,
+                exclude=None,
+                mode=0,
+                wetrun=False,
+                this_name=os.path.basename(__file__)):
     """ Find string in File name/Folder name and replace with another string
 
     \b
@@ -59,14 +48,14 @@ def replacename(find, replace, work_dir, exclude=None, mode=0, wetrun=False):
         exclude (str, optional): Regex string to exclude in mattches
         mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
         wetrun (bool, optional): Test Run or not
+        this_name (str, optional): caller name
     """
     _helper.init_loger()
-    this_name = os.path.basename(__file__)
+    this_run = "WET" if wetrun else "DRY"
     loger = logging.getLogger(this_name)
-    loger.info("Replace \"%s\" with \"%s\" in \"%s\"; Mode %s", find, replace,
-               work_dir, mode)
-    loger.info("=== %s [%s RUN] start ===", this_name, "WET"
-               if wetrun else "DRY")
+    loger.info("[START] === %s [%s RUN] ===", this_name, this_run)
+    loger.info("[DO] Replace \"%s\" with \"%s\" in \"%s\"; Mode %s", find,
+               replace, work_dir, mode)
 
     for item in _replacename(find, replace, work_dir, mode, exclude):
         if wetrun:
@@ -74,8 +63,8 @@ def replacename(find, replace, work_dir, exclude=None, mode=0, wetrun=False):
         else:
             loger.info("%s", item)
 
-    loger.info("=== %s end ===", this_name)
+    loger.info("[END] === %s [%s RUN] ===", this_name, this_run)
 
 
 if __name__ == "__main__":
-    replacename()
+    fileorganizer.cli.cli_replacename()

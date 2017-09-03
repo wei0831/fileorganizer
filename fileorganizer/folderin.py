@@ -4,7 +4,7 @@
 """
 import os
 import logging
-import click
+import fileorganizer
 from fileorganizer import _helper
 from fileorganizer._transaction import Transaction
 from fileorganizer._helper import find_matches_exclude
@@ -23,10 +23,7 @@ def _folderin(work_dir):
         yield Transaction(form_dir, to_dir, "mv")
 
 
-@click.command()
-@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
-@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
-def folderin(work_dir, wetrun=False):
+def folderin(work_dir, wetrun=False, this_name=os.path.basename(__file__)):
     """ Put files into folder with the same name
 
     \b
@@ -35,12 +32,10 @@ def folderin(work_dir, wetrun=False):
       wetrun (bool, optional): Test Run or not
     """
     _helper.init_loger()
-    this_name = os.path.basename(__file__)
+    this_run = "WET" if wetrun else "DRY"
     loger = logging.getLogger(this_name)
-
-    loger.info("Files move to individual folders in \"%s\"", work_dir)
-    loger.info("=== %s [%s RUN] start ===", this_name, "WET"
-               if wetrun else "DRY")
+    loger.info("[START] === %s [%s RUN] ===", this_name, this_run)
+    loger.info("[DO] Files move to individual folders in \"%s\"", work_dir)
 
     for item in _folderin(work_dir):
         if wetrun:
@@ -48,8 +43,8 @@ def folderin(work_dir, wetrun=False):
         else:
             loger.info("%s", item)
 
-    loger.info("=== %s End ===", this_name)
+    loger.info("[END] === %s [%s RUN] ===", this_name, this_run)
 
 
 if __name__ == "__main__":
-    folderin()
+    fileorganizer.cli.cli_folderin()
