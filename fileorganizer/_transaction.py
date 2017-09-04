@@ -44,7 +44,8 @@ class Transaction:
                         new_dir,
                         new_file_name + "[Copy" + str(i) + "]" + new_file_ext)
                 self.new = new_file_name_attempt
-                self.loger.warning("[!!DUP!!] [%s]", self.new)
+                self.loger.warning("[!!DUP!!] [%s] -> [%s]", self.old,
+                                   self.new)
 
             shutil.move(self.old, self.new)
             self.status["done"] = True
