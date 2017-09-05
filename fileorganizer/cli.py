@@ -126,14 +126,6 @@ def cli_replacename(find,
 @click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
 @click.argument('tag', type=click.STRING)
 @click.option(
-    '--find', '-f', default=None, type=click.STRING, help="Find regex pattern")
-@click.option(
-    '--replace',
-    '-r',
-    default=None,
-    type=click.STRING,
-    help="Replace regex pattern")
-@click.option(
     '--exclude',
     '-e',
     default=None,
@@ -146,23 +138,15 @@ def cli_replacename(find,
     type=click.INT,
     help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
 @click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
-def cli_fanhaorename(work_dir,
-                     tag,
-                     find=None,
-                     replace=None,
-                     exclude=None,
-                     mode=0,
-                     wetrun=False):
+def cli_fanhaorename(work_dir, tag, exclude=None, mode=0, wetrun=False):
     """ Click Wrapper: Batch Rename Fanhao
 
     \b
     Args:
         work_dir (str): Working Directory
         tag (str): Fanhao tag
-        find (str, optional): Regex string to find in filename/foldername
-        replace (str, optional): Regex string to replace in filename/foldername
         exclude (str, optional): Regex string to exclude in mattches
         mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
         wetrun (bool, optional): Test Run or not
     """
-    fanhaorename(work_dir, tag, find, replace, exclude, mode, wetrun)
+    fanhaorename(work_dir, tag, exclude, mode, wetrun)

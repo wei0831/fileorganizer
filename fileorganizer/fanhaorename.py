@@ -24,8 +24,6 @@ def _tagHelper(tag):
 
 def fanhaorename(work_dir,
                  tag,
-                 find=None,
-                 replace=None,
                  exclude=None,
                  mode=0,
                  wetrun=False,
@@ -42,15 +40,22 @@ def fanhaorename(work_dir,
         mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
         wetrun (bool, optional): Test Run or not
     """
-    _find = r"(.*)({0})(-|_| )*(\d\d\d)(.*)(\.(.*))"
-    _replace = r"{0}-\4\6"
+    _find_dir = r"(.*)({0})(-|_| )*(\d\d\d)(.*)".format(_tagHelper(tag))
+    _replace_dir = r"{0}-\4".format(tag)
+    _find_file = _find_dir + r"(\.(.*))"
+    _replace_file = _replace_dir + r"\6"
 
-    if not find:
-        find = _find.format(_tagHelper(tag))
-    if not replace:
-        replace = _replace.format(tag)
-
-    replacename(find, replace, work_dir, exclude, mode, wetrun, this_name)
+    if mode == 0:
+        replacename(_find_file, _replace_file, work_dir, exclude, mode, wetrun,
+                    this_name)
+    elif mode == 1:
+        replacename(_find_dir, _replace_dir, work_dir, exclude, mode, wetrun,
+                    this_name)
+    else:
+        replacename(_find_file, _replace_file, work_dir, exclude, mode, wetrun,
+                    this_name)
+        replacename(_find_dir, _replace_dir, work_dir, exclude, mode, wetrun,
+                    this_name)
 
 
 if __name__ == "__main__":
