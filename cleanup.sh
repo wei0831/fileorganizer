@@ -2,23 +2,23 @@ yapf setup.py -i
 yapf ./fileorganizer/ --recursive -i
 
 if [ -d "./build" ]; then
-    rm ./build -r
+    rm -rf ./build
 fi
 if [ -d "./dist" ]; then
-    rm ./dist -r
+    rm -rf ./dist
 fi
 if [ -d "./temp" ]; then
-    rm ./temp -r
+    rm -rf ./temp
 fi
 if [ -d "./fileorganizer.egg-info" ]; then
-    rm ./fileorganizer.egg-info -r
+    rm -rf ./fileorganizer.egg-info
 fi
 if [ -d "./log" ]; then
-    rm ./log -r
+    rm -rf ./log
 fi
 if [ -d "./fileorganizer/log" ]; then
-    rm ./fileorganizer/log -r
+    rm -rf ./fileorganizer/log
 fi
 if [ -d "./fo_log" ]; then
-    rm ./fo_log -r
+    rm -rf ./fo_log
 fi
