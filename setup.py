@@ -20,6 +20,7 @@ setup(
             'moveintofolder=fileorganizer.cli:cli_moveintofolder',
             'replacename=fileorganizer.cli:cli_replacename',
             'fanhaorename=fileorganizer.cli:cli_fanhaorename',
+            'renameafterfolder=fileorganizer.cli:cli_renameafterfolder',
         ],
     },
     package_data={

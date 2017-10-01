@@ -19,3 +19,6 @@ fi
 if [ -d "./fileorganizer/log" ]; then
     rm ./fileorganizer/log -r
 fi
+if [ -d "./fo_log" ]; then
+    rm ./fo_log -r
+fi

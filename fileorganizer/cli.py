@@ -8,6 +8,7 @@ from fileorganizer.folderout import folderout
 from fileorganizer.moveintofolder import moveintofolder
 from fileorganizer.fanhaorename import fanhaorename
 from fileorganizer.replacename import replacename
+from fileorganizer.renameafterfolder import renameafterfolder
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -150,3 +151,26 @@ def cli_fanhaorename(work_dir, tag, exclude=None, mode=0, wetrun=False):
         wetrun (bool, optional): Test Run or not
     """
     fanhaorename(work_dir, tag, exclude, mode, wetrun)
+
+
+@click.command()
+@click.argument('find', type=click.STRING)
+@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
+@click.option(
+    '--exclude',
+    '-e',
+    default=None,
+    type=click.STRING,
+    help="Exclude regex pattern")
+@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
+def cli_renameafterfolder(find, work_dir, exclude=None, wetrun=False):
+    """ Click Wrapper: Rename all files inside folder with folder name
+
+    \b
+    Args:
+        find (str): Regex string to find in filename/foldername
+        work_dir (str): Working Directory
+        exclude (str, optional): Regex string to exclude in mattches
+        wetrun (bool, optional): Test Run or not
+    """
+    renameafterfolder(find, work_dir, exclude, wetrun)
