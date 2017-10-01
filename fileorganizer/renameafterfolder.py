@@ -26,7 +26,8 @@ def _renameafterfolder(find, work_dir, exclude=None):
             oldnamepath = os.path.join(todopath, todo)
             _, todo_ext = os.path.splitext(oldnamepath)
             newnamepath = os.path.join(todopath, foldername + todo_ext)
-            yield Transaction(oldnamepath, newnamepath, "mv")
+            if oldnamepath != newnamepath:
+                yield Transaction(oldnamepath, newnamepath, "mv")
 
 
 def renameafterfolder(find,
