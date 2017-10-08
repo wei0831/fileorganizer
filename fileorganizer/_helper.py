@@ -15,7 +15,7 @@ __author__ = "Jack Chang <wei0831@gmail.com>"
 
 
 def init_loger(path=os.path.join(
-        os.path.dirname(os.path.realpath(__file__)), 'conf\logging.yaml'),
+        os.path.dirname(os.path.realpath(__file__)), 'conf/logging.yaml'),
                default_level=logging.INFO):
     """ Initialize Logging Module
     Note:
@@ -27,8 +27,6 @@ def init_loger(path=os.path.join(
     if not os.path.exists('fo_log'):
         os.mkdir('fo_log')
 
-    logging.getLogger(__name__).info("Checking Default Logging Conf '%s'",
-                                     path)
     if os.path.exists(path):
         with open(path, 'rt') as config:
             config = yaml.safe_load(config.read())
