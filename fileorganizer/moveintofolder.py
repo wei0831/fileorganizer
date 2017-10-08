@@ -56,6 +56,7 @@ def moveintofolder(find,
     loger.info(
         "[DO] Matches \"%s\" in \"%s\"; Excludes \"%s\"; Moved to \"%s\"; Mode %s",
         find, work_dir, exclude, to_dir, mode)
+    count = 0
 
     for item in _moveintofolder(find, work_dir, to_dir, exclude, mode,
                                 casesensitive):
@@ -63,7 +64,9 @@ def moveintofolder(find,
             item.commit()
         else:
             loger.info("%s", item)
+        count += 1
 
+    loger.info("[SUMMARY] Total %s items", count)
     loger.info("[END] === %s [%s RUN] ===", this_name, this_run)
 
 
