@@ -14,8 +14,8 @@ import yaml
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
 
-def init_loger(path=os.path.dirname(os.path.realpath(__file__)) +
-               '\\conf\\logging.yaml',
+def init_loger(path=os.path.join(
+        os.path.dirname(os.path.realpath(__file__)), 'conf\logging.yaml'),
                default_level=logging.INFO):
     """ Initialize Logging Module
     Note:
@@ -32,10 +32,10 @@ def init_loger(path=os.path.dirname(os.path.realpath(__file__)) +
             config = yaml.safe_load(config.read())
 
         logging.config.dictConfig(config)
-        logging.getLogger(__name__).debug("Config '%s' is loaded.", path)
+        logging.getLogger(__name__).info("Config '%s' is loaded.", path)
     else:
         logging.basicConfig(level=default_level)
-        logging.getLogger(__name__).debug("Default Config is loaded.", path)
+        logging.getLogger(__name__).info("Default Config is loaded.")
 
 
 FILEONLY = 0
