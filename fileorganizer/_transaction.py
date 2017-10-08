@@ -2,6 +2,9 @@
 """ _transaction.py
 
 """
+import sys  
+sys.setdefaultencoding('utf8')
+
 import os
 import shutil
 import logging
