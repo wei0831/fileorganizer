@@ -14,8 +14,14 @@ __author__ = "Jack Chang <wei0831@gmail.com>"
 DESCRIPTION = "Move matching files/folder into a folder"
 
 
-def _moveintofolder(find, work_dir, to_dir, exclude=None, mode=0):
-    matches = find_matches_exclude(mode, find, work_dir, exclude)
+def _moveintofolder(find,
+                    work_dir,
+                    to_dir,
+                    exclude=None,
+                    mode=0,
+                    casesensitive=True):
+    matches = find_matches_exclude(mode, find, work_dir, exclude,
+                                   casesensitive)
 
     for item in matches:
         oldnamepath = os.path.join(work_dir, item)
@@ -29,6 +35,7 @@ def moveintofolder(find,
                    to_dir,
                    exclude=None,
                    mode=0,
+                   casesensitive=True,
                    wetrun=False,
                    this_name=os.path.basename(__file__)):
     """ Move matching files/folder into a folder
@@ -50,7 +57,8 @@ def moveintofolder(find,
         "[DO] Matches \"%s\" in \"%s\"; Excludes \"%s\"; Moved to \"%s\"; Mode %s",
         find, work_dir, exclude, to_dir, mode)
 
-    for item in _moveintofolder(find, work_dir, to_dir, exclude, mode):
+    for item in _moveintofolder(find, work_dir, to_dir, exclude, mode,
+                                casesensitive):
         if wetrun:
             item.commit()
         else:

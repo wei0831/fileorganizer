@@ -43,23 +43,40 @@ FOLDERONLY = 1
 BOTHFILEFOLDER = 2
 
 
-def find_matches_exclude(mode, find, work_dir, exclude=None):
+def find_matches_exclude(mode,
+                         find,
+                         work_dir,
+                         exclude=None,
+                         casesensitive=True):
     """ TODO
     """
     check_mode = lambda f: True
-    if mode == FILEONLY:
-        check_mode = lambda f: os.path.isfile(os.path.join(work_dir, f))
-    elif mode == FOLDERONLY:
-        check_mode = lambda f: os.path.isdir(os.path.join(work_dir, f))
-
     check_match = lambda f: True
+    check_exclude = lambda f: False
+
+    if casesensitive:
+        if mode == FILEONLY:
+            check_mode = lambda f: os.path.isfile(os.path.join(work_dir, f))
+        elif mode == FOLDERONLY:
+            check_mode = lambda f: os.path.isdir(os.path.join(work_dir, f))
+        elif mode == BOTHFILEFOLDER:
+            check_mode = lambda f: os.path.exists(os.path.join(work_dir, f))
+    else:
+        if mode == FILEONLY:
+            check_mode = lambda f: f.lower() in [i.lower() for i in os.listdir(work_dir) if os.path.isfile(os.path.join(work_dir, i))]
+        elif mode == FOLDERONLY:
+            check_mode = lambda f: f.lower() in [i.lower() for i in os.listdir(work_dir) if os.path.isdir(os.path.join(work_dir, i))]
+        elif mode == BOTHFILEFOLDER:
+            check_mode = lambda f: f.lower() in [i.lower() for i in os.listdir(work_dir)]
+
     if find is not None:
-        regex_find = re.compile(find)
+        regex_find = re.compile(
+            find, flags=re.IGNORECASE if not casesensitive else 0)
         check_match = lambda f: regex_find.search(f) is not None
 
-    check_exclude = lambda f: False
     if exclude:
-        regex_exlude = re.compile(exclude)
+        regex_exlude = re.compile(
+            exclude, flags=re.IGNORECASE if not casesensitive else 0)
         check_exclude = lambda f: regex_exlude.search(f) is not None
 
     for item in os.listdir(work_dir):

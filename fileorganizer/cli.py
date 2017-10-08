@@ -64,12 +64,14 @@ def cli_folderout(work_dir, to_dir=None, wetrun=False):
     default=0,
     type=click.INT,
     help="0: FILE_ONLY, 1: FOLDER_ONLY, 2: BOTH")
+@click.option('--insensitive', '-i', is_flag=True, help="Case Insensitive")
 @click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
 def cli_moveintofolder(find,
                        work_dir,
                        to_dir,
                        exclude=None,
                        mode=0,
+                       insensitive=False,
                        wetrun=False):
     """ Click Wrapper: Move matching files/folder into a folder
 
@@ -82,7 +84,8 @@ def cli_moveintofolder(find,
         mode (int, optional): 0=FILE ONLY, 1=FOLDER ONLY, 2=BOTH
         wetrun (bool, optional): Test Run or not
     """
-    moveintofolder(find, work_dir, to_dir, exclude, mode, wetrun)
+    moveintofolder(find, work_dir, to_dir, exclude, mode, not insensitive,
+                   wetrun)
 
 
 @click.command()
