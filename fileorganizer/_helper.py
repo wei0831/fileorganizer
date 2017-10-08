@@ -24,12 +24,12 @@ def init_loger(path=os.path.join(
         path (str, optional): path to .yaml config file
         default_level (int, optional): logging level
     """
-    if not os.path.exists('fo_log'):
-        os.mkdir('fo_log')
-
     if os.path.exists(path):
         with open(path, 'rt') as config:
             config = yaml.safe_load(config.read())
+    
+        if not os.path.exists('fo_log'):
+            os.mkdir('fo_log')
 
         logging.config.dictConfig(config)
         logging.getLogger(__name__).info("Config '%s' is loaded.", path)
