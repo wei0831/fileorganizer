@@ -1,11 +1,8 @@
 #!/usr/bin/python
+#-*- coding: utf-8 -*-
 """ _transaction.py
 
 """
-import sys  
-reload(sys)
-sys.setdefaultencoding('utf8')
-
 import os
 import shutil
 import logging

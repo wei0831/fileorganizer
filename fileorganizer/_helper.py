@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#-*- coding: utf-8 -*-
 """ _helper.py
 
 This module contains several helper functions
