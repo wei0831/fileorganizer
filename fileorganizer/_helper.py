@@ -27,7 +27,7 @@ def init_loger(path=os.path.join(
     if os.path.exists(path):
         with open(path, 'rt') as config:
             config = yaml.safe_load(config.read())
-    
+
         if not os.path.exists('fo_log'):
             os.mkdir('fo_log')
 
