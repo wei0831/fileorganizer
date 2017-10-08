@@ -12,6 +12,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'click>=6.0',
+        'yapf>=0.17'
     ],
     entry_points={
         'console_scripts': [

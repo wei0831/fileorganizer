@@ -63,7 +63,7 @@ def moveintofolder(find,
         if wetrun:
             item.commit()
         else:
-            loger.info(u"%s", item)
+            loger.info("%s", item)
         count += 1
 
     loger.info("[SUMMARY] Total %s items.", count)
