@@ -10,10 +10,7 @@ setup(
     version=fileorganizer.VERSION,
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[
-        'click>=6.0',
-        'yapf>=0.17'
-    ],
+    install_requires=['click>=6.0', 'yapf>=0.17'],
     entry_points={
         'console_scripts': [
             'folderin=fileorganizer.cli:cli_folderin',

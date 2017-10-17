@@ -23,7 +23,9 @@ def _fanhaofolderin(work_dir):
         yield Transaction(form_dir, to_dir, "mv")
 
 
-def fanhaofolderin(work_dir, wetrun=False, this_name=os.path.basename(__file__)):
+def fanhaofolderin(work_dir,
+                   wetrun=False,
+                   this_name=os.path.basename(__file__)):
     """ Organize file XXX-YYY into folder XXX
 
     \b

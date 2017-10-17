@@ -27,6 +27,7 @@ def cli_folderin(work_dir, wetrun=False):
     """
     folderin(work_dir, wetrun)
 
+
 @click.command()
 @click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
 @click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
@@ -39,6 +40,7 @@ def cli_fanhaofolderin(work_dir, wetrun=False):
       wetrun (bool, optional): Test Run or not
     """
     fanhaofolderin(work_dir, wetrun)
+
 
 @click.command()
 @click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
