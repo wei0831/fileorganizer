@@ -9,6 +9,7 @@ from fileorganizer.moveintofolder import moveintofolder
 from fileorganizer.fanhaorename import fanhaorename
 from fileorganizer.replacename import replacename
 from fileorganizer.renameafterfolder import renameafterfolder
+from fileorganizer.fanhaofolderin import fanhaofolderin
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -26,6 +27,18 @@ def cli_folderin(work_dir, wetrun=False):
     """
     folderin(work_dir, wetrun)
 
+@click.command()
+@click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))
+@click.option('--wetrun', '-w', is_flag=True, help="Commit changes")
+def cli_fanhaofolderin(work_dir, wetrun=False):
+    """ Click Wrapper: Organize file XXX-YYY into folder XXX
+
+    \b
+    Args:
+      work_dir (str): Working Directory
+      wetrun (bool, optional): Test Run or not
+    """
+    fanhaofolderin(work_dir, wetrun)
 
 @click.command()
 @click.argument('work_dir', type=click.Path(exists=True, resolve_path=True))

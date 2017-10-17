@@ -21,6 +21,7 @@ setup(
             'moveintofolder=fileorganizer.cli:cli_moveintofolder',
             'replacename=fileorganizer.cli:cli_replacename',
             'fanhaorename=fileorganizer.cli:cli_fanhaorename',
+            'fanhaofolderin=fileorganizer.cli:cli_fanhaofolderin',
             'renameafterfolder=fileorganizer.cli:cli_renameafterfolder',
         ],
     },
