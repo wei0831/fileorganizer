@@ -52,9 +52,9 @@ def fanhaorename(work_dir,
         replacename(_find_dir, _replace_dir, work_dir, exclude, mode, wetrun,
                     this_name)
     else:
-        replacename(_find_file, _replace_file, work_dir, exclude, mode, wetrun,
+        replacename(_find_file, _replace_file, work_dir, exclude, 0, wetrun,
                     this_name)
-        replacename(_find_dir, _replace_dir, work_dir, exclude, mode, wetrun,
+        replacename(_find_dir, _replace_dir, work_dir, exclude, 1, wetrun,
                     this_name)
 
 
