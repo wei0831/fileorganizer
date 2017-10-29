@@ -4,8 +4,10 @@
 """
 import os
 import os.path
+import logging
 import fileorganizer
-from fileorganizer.replacename import replacename
+from fileorganizer import _helper
+from fileorganizer.replacename import _replacename
 
 __author__ = "Jack Chang <wei0831@gmail.com>"
 
@@ -45,17 +47,24 @@ def fanhaorename(work_dir,
     _find_file = _find_dir + r"(\.(.*))"
     _replace_file = _replace_dir + r"\6"
 
-    if mode == 0:
-        replacename(_find_file, _replace_file, work_dir, exclude, mode, wetrun,
-                    this_name)
-    elif mode == 1:
-        replacename(_find_dir, _replace_dir, work_dir, exclude, mode, wetrun,
-                    this_name)
-    else:
-        replacename(_find_file, _replace_file, work_dir, exclude, 0, wetrun,
-                    this_name)
-        replacename(_find_dir, _replace_dir, work_dir, exclude, 1, wetrun,
-                    this_name)
+    _helper.init_loger()
+    this_run = "WET" if wetrun else "DRY"
+    loger = logging.getLogger(this_name)
+    loger.info("[START] === %s [%s RUN] ===", this_name, this_run)
+    loger.info("[DO] Rename \"%s\" fanhao in \"%s\"; Mode %s", tag, work_dir,
+               mode)
+
+    if mode in (0, 2): # mode 0 and 2
+        for item in _replacename(_find_file, _replace_file, work_dir, 0,
+                                 exclude):
+            item.commit() if wetrun else loger.info("%s", item)
+
+    if mode in (1, 2): # mode 1 and 2
+        for item in _replacename(_find_dir, _replace_dir, work_dir, 1,
+                                 exclude):
+            item.commit() if wetrun else loger.info("%s", item)
+
+    loger.info("[END] === %s [%s RUN] ===", this_name, this_run)
 
 
 if __name__ == "__main__":
